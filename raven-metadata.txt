@@ -1,0 +1,736 @@
+
+1	grammar RavenMetadataRule;
+2	
+3	@rulecatch {   
+4	    catch (RecognitionException e) {    
+5	        throw e;   
+6	    }
+7	}
+8	
+9	raven_rule
+10	  : ps_rule EOF
+11	  ;
+12	
+13	ps_rule
+14	  : or_rule | not_rule | and_rule | exchange_alias_email_rule | mapped_email_contains_rule
+15	  | email_contains_rule | email_rule | mapped_email_rule | kerberos_rule
+16	  | given_name_rule | last_name_rule | extracted_domain_contains_rule
+17	  | extracted_domain_rule | guid_rule | employee_number_rule | canonical_name_rule
+18	  | gs_legal_title_rule | gs_division_name_rule | telephone_number_rule
+19	  | gs_dept_code_rule | gs_division_code_rule | location_rule
+20	  | gs_department_name_rule | exact_number_of_recipients_rule
+21	  | minimum_number_of_recipients_rule | maximum_number_of_recipients_rule
+22	  | exact_number_of_external_recipients_rule | minimum_number_of_external_recipients_rule
+23	  | maximum_number_of_external_recipients_rule | attachment_file_name_contains
+24	  | attachment_file_name | attachment_title | attachment_file_extension_contains
+25	  | attachment_file_extension | minimum_number_of_attachments_rule
+26	  | maximum_number_of_attachments_rule | is_sender_external_rule
+27	  | minimum_number_of_words_in_any_attachment_rule
+28	  | maximum_number_of_words_in_any_attachment_rule
+29	  ;
+30	
+31	exchange_alias_email_rule
+32	  : sender_exchange_alias_email_rule | recipient_exchange_alias_email_rule
+33	  ;
+34	
+35	mapped_email_contains_rule
+36	  : sender_mapped_email_contains_rule | recipient_mapped_email_contains_rule
+37	  ;
+38	
+39	email_contains_rule
+40	  : sender_email_contains_rule | recipient_email_contains_rule
+41	  ;
+42	
+43	mapped_email_rule
+44	  : sender_mapped_email_rule | recipient_mapped_email_rule
+45	  ;
+46	
+47	email_rule
+48	  : sender_email_rule | recipient_email_rule
+49	  ;
+50	
+51	kerberos_rule
+52	  : sender_kerberos_rule | recipient_kerberos_rule
+53	  ;
+54	
+55	given_name_rule
+56	  : sender_given_name_rule | recipient_given_name_rule
+57	  ;
+58	
+59	last_name_rule
+60	  : sender_last_name_rule | recipient_last_name_rule
+61	  ;
+62	
+63	extracted_domain_contains_rule
+64	  : sender_extracted_domain_contains_rule | recipient_extracted_domain_contains_rule
+65	  ;
+66	
+67	extracted_domain_rule
+68	  : sender_extracted_domain_rule | recipient_extracted_domain_rule
+69	  ;
+70	
+71	guid_rule
+72	  : sender_guid_rule | recipient_guid_rule
+73	  ;
+74	
+75	employee_number_rule
+76	  : sender_employee_number_rule | recipient_employee_number_rule
+77	  ;
+78	
+79	canonical_name_rule
+80	  : sender_canonical_name_rule | recipient_canonical_name_rule
+81	  ;
+82	
+83	gs_legal_title_rule
+84	  : sender_gs_legal_title_rule | recipient_gs_legal_title_rule
+85	  ;
+86	
+87	gs_division_name_rule
+88	  : sender_gs_division_name_rule | recipient_gs_division_name_rule
+89	  ;
+90	
+91	telephone_number_rule
+92	  : sender_telephone_number_rule | recipient_telephone_number_rule
+93	  ;
+94	
+95	gs_dept_code_rule
+96	  : sender_gs_dept_code_rule | recipient_gs_dept_code_rule
+97	  ;
+98	
+99	gs_division_code_rule
+100	  : sender_gs_division_code_rule | recipient_gs_division_code_rule
+101	  ;
+102	
+103	location_rule
+104	  : sender_location_rule | recipient_location_rule
+105	  ;
+106	
+107	gs_department_name_rule
+108	  : sender_gs_department_name_rule | recipient_gs_department_name_rule
+109	  ;
+110	
+111	or_rule
+112	  : '{' ps_rule '|' or_recursive_rule '}'
+113	  ;
+114	
+115	or_recursive_rule
+116	  : ps_rule | ps_rule '|' or_recursive_rule
+117	  ;
+118	
+119	not_rule
+120	  : '{' NOT ps_rule '}'
+121	  ;
+122	
+123	and_rule
+124	  : '{' ps_rule AND and_recursive_rule '}'
+125	  ;
+126	
+127	and_recursive_rule
+128	  : ps_rule | ps_rule AND and_recursive_rule
+129	  ;
+130	
+131	sender_exchange_alias_email_rule
+132	  : SENDER_EXCHANGE_ALIAS_EMAIL '=' exchange_alias_email
+133	  ;
+134	
+135	recipient_exchange_alias_email_rule
+136	  : RECIPIENT_EXCHANGE_ALIAS_EMAIL '=' exchange_alias_email
+137	  ;
+138	
+139	sender_mapped_email_contains_rule
+140	  : SENDER_MAPPED_EMAIL_CONTAINS '=' email_contains
+141	  ;
+142	
+143	recipient_mapped_email_contains_rule
+144	  : RECIPIENT_MAPPED_EMAIL_CONTAINS '=' email_contains
+145	  ;
+146	
+147	sender_mapped_email_rule
+148	  : SENDER_MAPPED_EMAIL '=' email
+149	  ;
+150	
+151	recipient_mapped_email_rule
+152	  : RECIPIENT_MAPPED_EMAIL '=' email
+153	  ;
+154	
+155	sender_email_contains_rule
+156	  : SENDER_EMAIL_CONTAINS '=' email_contains
+157	  ;
+158	
+159	recipient_email_contains_rule
+160	  : RECIPIENT_EMAIL_CONTAINS '=' email_contains
+161	  ;
+162	
+163	sender_email_rule
+164	  : SENDER_EMAIL '=' exchange_alias_email
+165	  ;
+166	
+167	recipient_email_rule
+168	  : RECIPIENT_EMAIL '=' exchange_alias_email
+169	  ;
+170	
+171	sender_kerberos_rule
+172	  : SENDER_KERBEROS_LEXER_RULE
+173	  ;
+174	
+175	recipient_kerberos_rule
+176	  : RECIPIENT_KERBEROS_LEXER_RULE
+177	  ;
+178	
+179	sender_given_name_rule
+180	  : SENDER_GIVEN_NAME_LEXER_RULE
+181	  ;
+182	
+183	recipient_given_name_rule
+184	  : RECIPIENT_GIVEN_NAME_LEXER_RULE
+185	  ;
+186	
+187	sender_last_name_rule
+188	  : SENDER_LAST_NAME_LEXER_RULE
+189	  ;
+190	
+191	recipient_last_name_rule
+192	  : RECIPIENT_LAST_NAME_LEXER_RULE
+193	  ;
+194	
+195	sender_extracted_domain_contains_rule
+196	  : SENDER_EXTRACTED_DOMAIN_CONTAINS_LEXER_RULE
+197	  ;
+198	
+199	SENDER_EXTRACTED_DOMAIN_CONTAINS_LEXER_RULE
+200	  : SENDER_EXTRACTED_DOMAIN_CONTAINS '=' DOMAIN_CONTAINS
+201	  ;
+202	
+203	recipient_extracted_domain_contains_rule
+204	  : RECIPIENT_EXTRACTED_DOMAIN_CONTAINS_LEXER_RULE
+205	  ;
+206	
+207	RECIPIENT_EXTRACTED_DOMAIN_CONTAINS_LEXER_RULE
+208	  : RECIPIENT_EXTRACTED_DOMAIN_CONTAINS '=' DOMAIN_CONTAINS
+209	  ;
+210	
+211	sender_extracted_domain_rule
+212	  : SENDER_EXTRACTED_DOMAIN_LEXER_RULE
+213	  ;
+214	
+215	SENDER_EXTRACTED_DOMAIN_LEXER_RULE
+216	  : SENDER_EXTRACTED_DOMAIN '=' DOMAIN
+217	  ;
+218	
+219	recipient_extracted_domain_rule
+220	  : RECIPIENT_EXTRACTED_DOMAIN_LEXER_RULE
+221	  ;
+222	
+223	RECIPIENT_EXTRACTED_DOMAIN_LEXER_RULE
+224	  : RECIPIENT_EXTRACTED_DOMAIN '=' DOMAIN
+225	  ;
+226	
+227	sender_guid_rule
+228	  : SENDER_GUID_LEXER_RULE
+229	  ;
+230	
+231	recipient_guid_rule
+232	  : RECIPIENT_GUID_LEXER_RULE
+233	  ;
+234	
+235	sender_employee_number_rule
+236	  : SENDER_EMPLOYEE_NUMBER_LEXER_RULE
+237	  ;
+238	
+239	recipient_employee_number_rule
+240	  : RECIPIENT_EMPLOYEE_NUMBER_LEXER_RULE
+241	  ;
+242	
+243	sender_canonical_name_rule
+244	  : SENDER_CANONICAL_NAME '=' CANONICAL_NAME
+245	  ;
+246	
+247	recipient_canonical_name_rule
+248	  : RECIPIENT_CANONICAL_NAME '=' CANONICAL_NAME
+249	  ;
+250	
+251	sender_gs_legal_title_rule
+252	  : SENDER_GS_LEGAL_TITLE_LEXER_RULE
+253	  ;
+254	
+255	recipient_gs_legal_title_rule
+256	  : RECIPIENT_GS_LEGAL_TITLE_LEXER_RULE
+257	  ;
+258	
+259	sender_gs_division_name_rule
+260	  : SENDER_GS_DIVISION_NAME_LEXER_RULE
+261	  ;
+262	
+263	recipient_gs_division_name_rule
+264	  : RECIPIENT_GS_DIVISION_NAME_LEXER_RULE
+265	  ;
+266	
+267	sender_telephone_number_rule
+268	  : SENDER_TELEPHONE_NUMBER_LEXER_RULE
+269	  ;
+270	
+271	recipient_telephone_number_rule
+272	  : RECIPIENT_TELEPHONE_NUMBER_LEXER_RULE
+273	  ;
+274	
+275	sender_gs_dept_code_rule
+276	  : SENDER_GS_DEPT_CODE_LEXER_RULE
+277	  ;
+278	
+279	SENDER_GS_DEPT_CODE_LEXER_RULE
+280	  : SENDER_GS_DEPT_CODE '=' ALPHABET THREE_DIGITS
+281	  ;
+282	
+283	recipient_gs_dept_code_rule
+284	  : RECIPIENT_GS_DEPT_CODE_LEXER_RULE
+285	  ;
+286	
+287	sender_gs_division_code_rule
+288	  : SENDER_GS_DIVISION_CODE_LEXER_RULE
+289	  ;
+290	
+291	recipient_gs_division_code_rule
+292	  : RECIPIENT_GS_DIVISION_CODE_LEXER_RULE
+293	  ;
+294	
+295	sender_location_rule
+296	  : SENDER_LOCATION_LEXER_RULE
+297	  ;
+298	
+299	recipient_location_rule
+300	  : RECIPIENT_LOCATION_LEXER_RULE
+301	  ;
+302	
+303	sender_gs_department_name_rule
+304	  : SENDER_GS_DEPARTMENT_NAME_LEXER_RULE
+305	  ;
+306	
+307	recipient_gs_department_name_rule
+308	  : RECIPIENT_GS_DEPARTMENT_NAME_LEXER_RULE
+309	  ;
+310	
+311	exact_number_of_recipients_rule
+312	  : EXACT_NUMBER_OF_RECIPIENTS_LEXER_RULE
+313	  ;
+314	
+315	minimum_number_of_recipients_rule
+316	  : MINIMUM_NUMBER_OF_RECIPIENTS_LEXER_RULE
+317	  ;
+318	
+319	maximum_number_of_recipients_rule
+320	  : MAXIMUM_NUMBER_OF_RECIPIENTS_LEXER_RULE
+321	  ;
+322	
+323	exact_number_of_external_recipients_rule
+324	  : EXACT_NUMBER_OF_EXTERNAL_RECIPIENTS_LEXER_RULE
+325	  ;
+326	
+327	minimum_number_of_external_recipients_rule
+328	  : MINIMUM_NUMBER_OF_EXTERNAL_RECIPIENTS_LEXER_RULE
+329	  ;
+330	
+331	maximum_number_of_external_recipients_rule
+332	  : MAXIMUM_NUMBER_OF_EXTERNAL_RECIPIENTS_LEXER_RULE
+333	  ;
+334	
+335	is_sender_external_rule
+336	  : IS_SENDER_EXTERNAL_LEXER_RULE
+337	  ;
+338	
+339	attachment_file_name_contains
+340	  : ATTACHMENT_FILE_NAME_CONTAINS_LEXER_RULES
+341	  ;
+342	
+343	attachment_file_extension_contains
+344	  : ATTACHMENT_FILE_EXTENSION_CONTAINS_LEXER_RULE
+345	  ;
+346	
+347	attachment_file_name
+348	  : ATTACHMENT_FILE_NAME_LEXER_RULES
+349	  ;
+350	
+351	attachment_title
+352	  : ATTACHMENT_TITLE_LEXER_RULES
+353	  ;
+354	
+355	attachment_file_extension
+356	  : ATTACHMENT_FILE_EXTENSION_LEXER_RULE
+357	  ;
+358	
+359	email_contains
+360	  : EMAIL_CONTAINS_LEXER_RULE
+361	  ;
+362	
+363	email
+364	  : EMAIL_LEXER_RULE
+365	  ;
+366	
+367	exchange_alias_email
+368	  : EMAIL_LEXER_RULE | CANONICAL_NAME
+369	  ;
+370	
+371	minimum_number_of_attachments_rule
+372	  : MINIMUM_NUMBER_OF_ATTACHMENTS_LEXER_RULE
+373	  ;
+374	
+375	maximum_number_of_attachments_rule
+376	  : MAXIMUM_NUMBER_OF_ATTACHMENTS_LEXER_RULE
+377	  ;
+378	
+379	minimum_number_of_words_in_any_attachment_rule
+380	  : MINIMUM_NUMBER_OF_WORDS_IN_ANY_ATTACHMENT_LEXER_RULE
+381	  ;
+382	
+383	maximum_number_of_words_in_any_attachment_rule
+384	  : MAXIMUM_NUMBER_OF_WORDS_IN_ANY_ATTACHMENT_LEXER_RULE
+385	  ;
+386	
+387	EMAIL_LEXER_RULE
+388	  : EMAIL_PREFIX AT DOMAIN
+389	  ;
+390	
+391	EMAIL_CONTAINS_LEXER_RULE
+392	  : ALPHANUMERIC_STRING_WITH_SYMBOLS
+393	  ;
+394	
+395	EMAIL_PREFIX
+396	  : (WORD|DOT|HYPHEN)* WORD
+397	  ;
+398	
+399	DOMAIN
+400	  : (ALPHANUMERIC_WITH_HYPHEN_UNDERSCORE DOT)+ ALPHANUMERIC_WITH_HYPHEN_UNDERSCORE
+401	  ;
+402	
+403	DOMAIN_CONTAINS
+404	  : (ALPHANUMERIC_WITH_HYPHEN_UNDERSCORE|DOT)+
+405	  ;
+406	
+407	SENDER_GS_DIVISION_NAME_LEXER_RULE
+408	  : SENDER_GS_DIVISION_NAME '=' ALPHABETIC_STRING
+409	  ;
+410	
+411	RECIPIENT_GS_DIVISION_NAME_LEXER_RULE
+412	  : RECIPIENT_GS_DIVISION_NAME '=' ALPHABETIC_STRING
+413	  ;
+414	
+415	SENDER_TELEPHONE_NUMBER_LEXER_RULE
+416	  : SENDER_TELEPHONE_NUMBER '=' TELEPHONE_NUMBER
+417	  ;
+418	
+419	RECIPIENT_TELEPHONE_NUMBER_LEXER_RULE
+420	  : RECIPIENT_TELEPHONE_NUMBER '=' TELEPHONE_NUMBER
+421	  ;
+422	
+423	TELEPHONE_NUMBER
+424	  : NUMBER '(' NUMBER ')' NUMBER HYPHEN NUMBER
+425	  ;
+426	
+427	RECIPIENT_GS_DEPT_CODE_LEXER_RULE
+428	  : RECIPIENT_GS_DEPT_CODE '=' ALPHABET THREE_DIGITS
+429	  ;
+430	
+431	SENDER_GS_DIVISION_CODE_LEXER_RULE
+432	  : SENDER_GS_DIVISION_CODE '=' ALPHANUMERIC
+433	  ;
+434	
+435	RECIPIENT_GS_DIVISION_CODE_LEXER_RULE
+436	  : RECIPIENT_GS_DIVISION_CODE '=' ALPHANUMERIC
+437	  ;
+438	
+439	SENDER_LOCATION_LEXER_RULE
+440	  : SENDER_LOCATION '=' ALPHABETIC_STRING_WITH_HYPHEN_DOT
+441	  ;
+442	
+443	RECIPIENT_LOCATION_LEXER_RULE
+444	  : RECIPIENT_LOCATION '=' ALPHABETIC_STRING_WITH_HYPHEN_DOT
+445	  ;
+446	
+447	SENDER_GS_DEPARTMENT_NAME_LEXER_RULE
+448	  : SENDER_GS_DEPARTMENT_NAME '=' ALPHANUMERIC_STRING_WITH_DEPARTMENT_SYMBOLS
+449	  ;
+450	
+451	RECIPIENT_GS_DEPARTMENT_NAME_LEXER_RULE
+452	  : RECIPIENT_GS_DEPARTMENT_NAME '=' ALPHANUMERIC_STRING_WITH_DEPARTMENT_SYMBOLS
+453	  ;
+454	
+455	EXACT_NUMBER_OF_RECIPIENTS_LEXER_RULE
+456	  : EXACT_NUMBER_OF_RECIPIENTS '=' NUMBER
+457	  ;
+458	
+459	MINIMUM_NUMBER_OF_RECIPIENTS_LEXER_RULE
+460	  : MINIMUM_NUMBER_OF_RECIPIENTS '=' NUMBER
+461	  ;
+462	
+463	MAXIMUM_NUMBER_OF_RECIPIENTS_LEXER_RULE
+464	  : MAXIMUM_NUMBER_OF_RECIPIENTS '=' NUMBER
+465	  ;
+466	
+467	EXACT_NUMBER_OF_EXTERNAL_RECIPIENTS_LEXER_RULE
+468	  : EXACT_NUMBER_OF_EXTERNAL_RECIPIENTS '=' NUMBER
+469	  ;
+470	
+471	MINIMUM_NUMBER_OF_EXTERNAL_RECIPIENTS_LEXER_RULE
+472	  : MINIMUM_NUMBER_OF_EXTERNAL_RECIPIENTS '=' NUMBER
+473	  ;
+474	
+475	MAXIMUM_NUMBER_OF_EXTERNAL_RECIPIENTS_LEXER_RULE
+476	  : MAXIMUM_NUMBER_OF_EXTERNAL_RECIPIENTS '=' NUMBER
+477	  ;
+478	
+479	IS_SENDER_EXTERNAL_LEXER_RULE
+480	  : IS_SENDER_EXTERNAL '=' BOOLEAN
+481	  ;
+482	
+483	ATTACHMENT_FILE_NAME_CONTAINS_LEXER_RULES
+484	  : ATTACHMENT_FILE_NAME_CONTAINS '=' ALPHANUMERIC_STRING_WITH_SYMBOLS
+485	  ;
+486	
+487	ATTACHMENT_FILE_EXTENSION_CONTAINS_LEXER_RULE
+488	  : ATTACHMENT_FILE_EXTENSION_CONTAINS '=' ALPHABET
+489	  ;
+490	
+491	ATTACHMENT_FILE_NAME_LEXER_RULES
+492	  : ATTACHMENT_FILE_NAME '=' ALPHANUMERIC_STRING_WITH_SYMBOLS
+493	  ;
+494	
+495	ATTACHMENT_TITLE_LEXER_RULES
+496	  : ATTACHMENT_TITLE '=' ALPHANUMERIC_STRING
+497	  ;
+498	
+499	ATTACHMENT_FILE_EXTENSION_LEXER_RULE
+500	  : ATTACHMENT_FILE_EXTENSION '=' ALPHABET
+501	  ;
+502	
+503	SENDER_KERBEROS_LEXER_RULE
+504	  : SENDER_KERBEROS '=' ALPHABET
+505	  ;
+506	
+507	RECIPIENT_KERBEROS_LEXER_RULE
+508	  : RECIPIENT_KERBEROS '=' ALPHABET
+509	  ;
+510	
+511	SENDER_GIVEN_NAME_LEXER_RULE
+512	  : SENDER_GIVEN_NAME '=' ALPHABETIC_STRING_WITH_HYPHEN_DOT
+513	  ;
+514	
+515	RECIPIENT_GIVEN_NAME_LEXER_RULE
+516	  : RECIPIENT_GIVEN_NAME '=' ALPHABETIC_STRING_WITH_HYPHEN_DOT
+517	  ;
+518	
+519	SENDER_LAST_NAME_LEXER_RULE
+520	  : SENDER_LAST_NAME '=' ALPHABETIC_STRING_WITH_HYPHEN_DOT
+521	  ;
+522	
+523	RECIPIENT_LAST_NAME_LEXER_RULE
+524	  : RECIPIENT_LAST_NAME '=' ALPHABETIC_STRING_WITH_HYPHEN_DOT
+525	  ;
+526	
+527	SENDER_GUID_LEXER_RULE
+528	  : SENDER_GUID '=' NUMBER
+529	  ;
+530	
+531	RECIPIENT_GUID_LEXER_RULE
+532	  : RECIPIENT_GUID '=' NUMBER
+533	  ;
+534	
+535	SENDER_EMPLOYEE_NUMBER_LEXER_RULE
+536	  : SENDER_EMPLOYEE_NUMBER '=' ALPHANUMERIC
+537	  ;
+538	
+539	RECIPIENT_EMPLOYEE_NUMBER_LEXER_RULE
+540	  : RECIPIENT_EMPLOYEE_NUMBER '=' ALPHANUMERIC
+541	  ;
+542	
+543	CANONICAL_NAME
+544	  : ALPHABETIC_STRING_WITH_HYPHEN_DOT ',' WHITESPACE ALPHABETIC_STRING_WITH_HYPHEN_DOT WHITESPACE '[' ALPHABETIC_STRING ']'
+545	  ;
+546	
+547	SENDER_GS_LEGAL_TITLE_LEXER_RULE
+548	  : SENDER_GS_LEGAL_TITLE '=' ALPHABETIC_STRING
+549	  ;
+550	
+551	RECIPIENT_GS_LEGAL_TITLE_LEXER_RULE
+552	  : RECIPIENT_GS_LEGAL_TITLE '=' ALPHABETIC_STRING
+553	  ;
+554	
+555	MINIMUM_NUMBER_OF_ATTACHMENTS_LEXER_RULE
+556	  : MINIMUM_NUMBER_OF_ATTACHMENTS '=' NUMBER
+557	  ;
+558	
+559	MAXIMUM_NUMBER_OF_ATTACHMENTS_LEXER_RULE
+560	  : MAXIMUM_NUMBER_OF_ATTACHMENTS '=' NUMBER
+561	  ;
+562	
+563	MINIMUM_NUMBER_OF_WORDS_IN_ANY_ATTACHMENT_LEXER_RULE
+564	  : MINIMUM_NUMBER_OF_WORDS_IN_ANY_ATTACHMENT '=' NUMBER
+565	  ;
+566	
+567	MAXIMUM_NUMBER_OF_WORDS_IN_ANY_ATTACHMENT_LEXER_RULE
+568	  : MAXIMUM_NUMBER_OF_WORDS_IN_ANY_ATTACHMENT '=' NUMBER
+569	  ;
+570	
+571	WORD : (DIGIT|ALPHA|SYMBOL)+;
+572	
+573	ALPHANUMERIC : (DIGIT|ALPHA)+;
+574	
+575	ALPHANUMERIC_STRING : (DIGIT|ALPHA|WHITESPACE)+;
+576	
+577	ALPHANUMERIC_STRING_WITH_SYMBOLS : (DIGIT|ALPHA|WHITESPACE|SYMBOL)+;
+578	
+579	ALPHANUMERIC_STRING_WITH_DEPARTMENT_SYMBOLS : (DIGIT|ALPHA|WHITESPACE|DEPARTMENT_SYMBOL)+;
+580	
+581	ALPHABETIC_STRING_WITH_HYPHEN : (ALPHA|WHITESPACE|HYPHEN)+;
+582	
+583	ALPHABETIC_STRING_WITH_HYPHEN_DOT : (ALPHA|WHITESPACE|HYPHEN|DOT)+;
+584	
+585	ALPHABETIC_STRING : ALPHA+ | ALPHA+ WHITESPACE ALPHABETIC_STRING;
+586	
+587	ALPHANUMERIC_WITH_HYPHEN_UNDERSCORE : (DIGIT|ALPHA|HYPHEN|UNDERSCORE)+;
+588	
+589	ALPHABET : ALPHA+;
+590	
+591	BOOLEAN : 'true'|'false';
+592	
+593	ALPHA :'a'..'z'|'A'..'Z';
+594	
+595	NUMBER : DIGIT+;
+596	
+597	THREE_DIGITS : DIGIT DIGIT DIGIT;
+598	
+599	DIGIT : '0'..'9';
+600	
+601	DOT : '.';
+602	
+603	SYMBOL : '\''|'`'|'@'|'#'|'$'|'_'|'<'|'>'|'^'|'?'|'.'|'-'|','|'/'|':'|';'|'\\'
+604	         |'*'|'%';
+605	
+606	DEPARTMENT_SYMBOL : '#'|'-'|'('|')'|'\''|''|'\u2018'|'\u2019'|''|'/'|','
+607	                    |ESCAPED_SYMBOL;
+608	
+609	ESCAPED_SYMBOL : '\\&';
+610	
+611	WHITESPACE : ( '\t' | ' ' | '\r' | '\n'| '\u000C' )+;
+612	
+613	HYPHEN : '-';
+614	
+615	UNDERSCORE : '_';
+616	
+617	AND : '&';
+618	
+619	OR : '|';
+620	
+621	NOT : '!';
+622	
+623	AT : '@';
+624	
+625	SENDER_EXCHANGE_ALIAS_EMAIL: '~SenderExchangeAliasEmail';
+626	
+627	RECIPIENT_EXCHANGE_ALIAS_EMAIL: '~RecipientExchangeAliasEmail';
+628	
+629	SENDER_MAPPED_EMAIL_CONTAINS: '~SenderMappedEmailContains';
+630	
+631	RECIPIENT_MAPPED_EMAIL_CONTAINS: '~RecipientMappedEmailContains';
+632	
+633	SENDER_MAPPED_EMAIL: '~SenderMappedEmail';
+634	
+635	RECIPIENT_MAPPED_EMAIL: '~RecipientMappedEmail';
+636	
+637	SENDER_EMAIL_CONTAINS: '~SenderEmailContains';
+638	
+639	RECIPIENT_EMAIL_CONTAINS: '~RecipientEmailContains';
+640	
+641	SENDER_EMAIL: '~SenderEmail';
+642	
+643	RECIPIENT_EMAIL: '~RecipientEmail';
+644	
+645	SENDER_KERBEROS: '~SenderKerberos';
+646	
+647	RECIPIENT_KERBEROS: '~RecipientKerberos';
+648	
+649	SENDER_GIVEN_NAME: '~SenderGivenName';
+650	
+651	RECIPIENT_GIVEN_NAME: '~RecipientGivenName';
+652	
+653	SENDER_LAST_NAME: '~SenderLastName';
+654	
+655	RECIPIENT_LAST_NAME: '~RecipientLastName';
+656	
+657	SENDER_EXTRACTED_DOMAIN_CONTAINS: '~SenderExtractedDomainContains';
+658	
+659	RECIPIENT_EXTRACTED_DOMAIN_CONTAINS: '~RecipientExtractedDomainContains';
+660	
+661	SENDER_EXTRACTED_DOMAIN: '~SenderExtractedDomain';
+662	
+663	RECIPIENT_EXTRACTED_DOMAIN: '~RecipientExtractedDomain';
+664	
+665	SENDER_GUID: '~SenderGuid';
+666	
+667	RECIPIENT_GUID: '~RecipientGuid';
+668	
+669	SENDER_EMPLOYEE_NUMBER: '~SenderEmployeeNumber';
+670	
+671	RECIPIENT_EMPLOYEE_NUMBER: '~RecipientEmployeeNumber';
+672	
+673	SENDER_CANONICAL_NAME: '~SenderCanonicalName';
+674	
+675	RECIPIENT_CANONICAL_NAME: '~RecipientCanonicalName';
+676	
+677	SENDER_GS_LEGAL_TITLE: '~SenderGsLegalTitle';
+678	
+679	RECIPIENT_GS_LEGAL_TITLE: '~RecipientGsLegalTitle';
+680	
+681	SENDER_GS_DIVISION_NAME: '~SenderGsDivisionName';
+682	
+683	RECIPIENT_GS_DIVISION_NAME: '~RecipientGsDivisionName';
+684	
+685	SENDER_TELEPHONE_NUMBER: '~SenderTelephoneNumber';
+686	
+687	RECIPIENT_TELEPHONE_NUMBER: '~RecipientTelephoneNumber';
+688	
+689	SENDER_GS_DEPT_CODE: '~SenderGsDeptCode';
+690	
+691	RECIPIENT_GS_DEPT_CODE: '~RecipientGsDeptCode';
+692	
+693	SENDER_GS_DIVISION_CODE: '~SenderGsDivisionCode';
+694	
+695	RECIPIENT_GS_DIVISION_CODE: '~RecipientGsDivisionCode';
+696	
+697	SENDER_LOCATION: '~SenderLocation';
+698	
+699	RECIPIENT_LOCATION: '~RecipientLocation';
+700	
+701	SENDER_GS_DEPARTMENT_NAME: '~SenderGsDepartmentName';
+702	
+703	RECIPIENT_GS_DEPARTMENT_NAME: '~RecipientGsDepartmentName';
+704	
+705	EXACT_NUMBER_OF_RECIPIENTS: '~ExactNumberOfRecipients';
+706	
+707	MINIMUM_NUMBER_OF_RECIPIENTS: '~MinimumNumberOfRecipients';
+708	
+709	MAXIMUM_NUMBER_OF_RECIPIENTS: '~MaximumNumberOfRecipients';
+710	
+711	EXACT_NUMBER_OF_EXTERNAL_RECIPIENTS: '~ExactNumberOfExternalRecipients';
+712	
+713	MINIMUM_NUMBER_OF_EXTERNAL_RECIPIENTS: '~MinimumNumberOfExternalRecipients';
+714	
+715	MAXIMUM_NUMBER_OF_EXTERNAL_RECIPIENTS: '~MaximumNumberOfExternalRecipients';
+716	
+717	IS_SENDER_EXTERNAL: '~IsSenderExternal';
+718	
+719	ATTACHMENT_FILE_NAME_CONTAINS: '~AttachmentFileNameContains';
+720	
+721	ATTACHMENT_FILE_EXTENSION_CONTAINS: '~AttachmentFileExtensionContains';
+722	
+723	ATTACHMENT_FILE_NAME: '~AttachmentFileName';
+724	
+725	ATTACHMENT_TITLE: '~AttachmentTitle';
+726	
+727	ATTACHMENT_FILE_EXTENSION: '~AttachmentFileExtension';
+728	
+729	MINIMUM_NUMBER_OF_ATTACHMENTS: '~MinimumNumberOfAttachments';
+730	
+731	MAXIMUM_NUMBER_OF_ATTACHMENTS: '~MaximumNumberOfAttachments';
+732	
+733	MINIMUM_NUMBER_OF_WORDS_IN_ANY_ATTACHMENT: '~MinimumNumberOfWordsInAnyAttachment';
+734	
+735	MAXIMUM_NUMBER_OF_WORDS_IN_ANY_ATTACHMENT: '~MaximumNumberOfWordsInAnyAttachment';
