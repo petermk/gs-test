@@ -1,5 +1,3 @@
-Hi Peter,
-
 Here are some sample UI rules that you requested. Note I have put random values for each parameter to avoid giving away the actual values. Just expect the users to put some meaningful values instead of a, b, etc. Also note that the number values are also random. In reality, sometimes there are hundreds of comma separated values for one parameter that they enter. So, please don’t put any restrictions on the number of values per parameter or the length of values because some division name, for example, can be long.
 
 Metadata Rules:
