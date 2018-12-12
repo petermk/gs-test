@@ -1,0 +1,79 @@
+<div class="container raven-view-rules">
+  <div class="row">
+    <div class="col">
+      <a href="#" class="breadcrumb-home" routerLink="/"><i class="fa fa-arrow-left"></i> Home</a>
+      <div class="alert alert-success" role="alert" *ngIf="savedSurveillance">Success! Your surveillance has been saved!</div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <h1>Content Rules</h1>
+    </div>
+    <div class="col">
+    	<button class="btn btn-primary pull-right" [routerLink]="['/create-rule', surveillance.id]"><i class="fa fa-plus" aria-hidden="true"></i> Create rule</button>
+    </div>
+  </div>
+  <div class="row search">
+
+      <div class="col-12 col-lg-6">
+        <div class="search-wrapper">
+          <i class="fa fa-search" aria-hidden="true"></i>
+          <input type="text" name="search" id="search" placeholder="Search..." [(ngModel)]="searchString" (ngModelChange)="doSearch($event)">
+        </div>
+      </div>
+
+  </div>
+  <div class="row">
+  	<div class="col"><a href="#" (click)="toggleAllRules($event)" *ngIf="!allSelected">Select all</a><a href="#" (click)="toggleAllRules($event)" *ngIf="allSelected">Deselect all</a></div>
+  </div>
+
+  <div class="row" *ngIf="contentRules.length > 0">
+  	<div class="col">
+        <h2>Content</h2>
+  		<ul class="rules">
+  			<li *ngFor="let r of contentRules; let i = index;">
+  				<input type="checkbox" class="pull-left" [checked]="r.isSelected">
+  				<div class="rule-content pull-left">
+  					<h3>{{r.name}}</h3>
+  					<div class="pull-left">
+  						<h4>Inclusion</h4>
+  						<p>{{ capitalize(r.inclusion)}}</p>
+  					</div>
+  					<div class="pull-left applicability">
+  						<h4>Applicability</h4>
+  						<p *ngIf="r.applicability && r.applicability.length > 0">{{ capitalizeArray(r.applicability).join(", ")  }} - {{r.applyTo.toUpperCase()}}</p>
+  					</div>
+
+  					<div>{{r.rule}}</div>
+  					<button class="btn btn-secondary" (click)="navigate(r.id)">View</button>
+  				</div>
+  			</li>
+  		</ul>
+
+  		<button class="btn btn-secondary">Test</button>
+  	</div>
+  </div>
+
+  <div class="row" *ngIf="metadataRules.length > 0">
+  	<div class="col">
+        <h2>Metadata</h2>
+  		<ul class="rules">
+  			<li *ngFor="let r of metadataRules; let i = index;">
+  				<input type="checkbox" class="pull-left" [checked]="r.isSelected">
+  				<div class="rule-content pull-left">
+  					<h3>{{r.name}}</h3>
+
+  					<div>{{r.rule}}</div>
+  					<button class="btn btn-secondary" (click)="navigate(r.id)">View</button>
+  				</div>
+  			</li>
+      </ul>
+
+      <div class="row" *ngIf="hasRules">
+        <div class="col"><button class="btn btn-secondary" [disabled]="!isRuleSelected()" (click)="testRules()">Test</button></div>
+      </div>
+  	</div>
+  </div>
+
+
+</div>
